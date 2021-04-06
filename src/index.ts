@@ -3,6 +3,7 @@ import { getOctokit } from "@actions/github";
 import { diff, valid } from "semver";
 
 const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
+const merge_method = getInput('merge-method') || 'rebase'
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const run = async () => {
@@ -31,11 +32,7 @@ export const run = async () => {
         owner,
         repo,
         pull_number: prNumber,
-        commit_title: (
-          getInput("merge-commit") || `:twisted_rightwards_arrows: Merge #$PR_NUMBER ($PR_TITLE)`
-        )
-          .replace("$PR_NUMBER", prNumber.toString())
-          .replace("$PR_TITLE", prTitle),
+        merge_method: merge_method,
       });
     } catch (error) {
       console.log(error);

@@ -8,8 +8,8 @@ jobs:
     name: Label and approve minor/patch updates
     runs-on: ubuntu-18.04
     steps:
-      - uses: koj-co/dependabot-pr-action@master
+      - uses: imaware/dependabot-pr-action@master
         with:
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.ACTIONS_TOKEN }}
           merge-minor: true
           merge-patch: true
