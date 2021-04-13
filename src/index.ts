@@ -2,8 +2,32 @@ import { getInput, setFailed } from "@actions/core";
 import { getOctokit } from "@actions/github";
 import { diff, valid } from "semver";
 
+type tmergeMethods = {
+  [key: string]: "merge" | "squash" | "rebase"
+}
+
+
+const mergeMethods: tmergeMethods = {
+  merge: "merge",
+  squash: "squash",
+  rebase: "rebase",
+}
+
+const getMergeMethod = ():"merge" | "squash" | "rebase" => {
+  const input = getInput('merge-method')
+
+  if (!input || !mergeMethods[input]) {
+    console.log(
+      'merge-method input is ignored because it is malformed, defaulting to `squash`.'
+    )
+    return mergeMethods.rebase
+  }
+
+  return mergeMethods[input]
+
+}
+
 const token = getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
-const merge_method = getInput('merge-method') || 'rebase'
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const run = async () => {
@@ -32,7 +56,7 @@ export const run = async () => {
         owner,
         repo,
         pull_number: prNumber,
-        merge_method: merge_method,
+        merge_method: getMergeMethod(),
       });
     } catch (error) {
       console.log(error);
