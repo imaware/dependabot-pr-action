@@ -18,7 +18,7 @@ const getMergeMethod = ():"merge" | "squash" | "rebase" => {
 
   if (!input || !mergeMethods[input]) {
     console.log(
-      'merge-method input is ignored because it is malformed, defaulting to `squash`.'
+      'merge-method input is ignored because it is malformed, defaulting to `rebase`.'
     )
     return mergeMethods.rebase
   }

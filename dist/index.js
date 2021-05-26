@@ -4824,7 +4824,7 @@ const mergeMethods = {
 const getMergeMethod = () => {
     const input = core_1.getInput('merge-method');
     if (!input || !mergeMethods[input]) {
-        console.log('merge-method input is ignored because it is malformed, defaulting to `squash`.');
+        console.log('merge-method input is ignored because it is malformed, defaulting to `rebase`.');
         return mergeMethods.rebase;
     }
     return mergeMethods[input];
